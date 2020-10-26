@@ -12,6 +12,7 @@ storiesOf("Button", module)
     backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
   })
   .add("Base", () => <Button>Base</Button>)
+  .add("Test", () => <Button />)
   .add("Confirm", () => <Button confirm>Confirm</Button>)
   .add("Danger", () => <Button danger>Cancel</Button>)
   .add("Clickable", () => (
