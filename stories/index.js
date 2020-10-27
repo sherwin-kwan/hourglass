@@ -11,10 +11,13 @@ import DayList from 'components/DayList.jsx';
 import days from 'components/days-db';
 import InterviewerListItem from 'components/InterviewerListItem.jsx';
 import InterviewerList from 'components/InterviewerList.jsx';
-import Appointment from 'components/Appointment/index.jsx'; /* Why doesn't this work?? */
-import AppointmentHeader from 'components/Appointment/Header.jsx';
-import AppointmentEmpty from 'components/Appointment/Empty.jsx';
-import AppointmentShow from 'components/Appointment/Show.jsx';
+import Appointment from 'components/Appointment'; /* Why doesn't this work?? */
+import AppointmentHeader from 'components/Appointment/Header';
+import AppointmentEmpty from 'components/Appointment/Empty';
+import AppointmentShow from 'components/Appointment/Show';
+import AppointmentConfirm from 'components/Appointment/Confirm';
+import AppointmentStatus from 'components/Appointment/Status';
+import AppointmentError from 'components/Appointment/Error';
 
 storiesOf("Button", module)
   .addParameters({
@@ -133,14 +136,27 @@ storiesOf("InterviewerListItem", module)
     .add('Appointment with time', () => <Appointment
       time = '12'
     />)  
-    .add("AppointmentHeader", () => {
+    .add("Header", () => {
       return <AppointmentHeader time='12pm' />
     })
-    .add("AppointmentEmpty", () => (
+    .add("Empty", () => (
       <AppointmentEmpty onAdd={action("onAdd")} />
     ))
-    .add("AppointmentShow", () => (
+    .add("Show", () => (
       <AppointmentShow onEdit={action('Someone clicked Edit!!')} onDelete={action('You clicked Delete!!')}
       candidate='Jane Doe' interviewer='Chen Xiaoming'/>
+    ))
+    .add("Confirm", () => (
+      <AppointmentConfirm message='Really delete this appointment?' onConfirm={action('You just signed your life away!')} 
+      onCancel={action('You backed off!')}/>
+    ))
+    .add("Delete", () => (
+      <AppointmentStatus message='Deleting' />
+    ))
+    .add("Save", () => (
+      <AppointmentStatus message='Saving' />
+    ))
+    .add("Error", () => (
+      <AppointmentError />
     ));
   
