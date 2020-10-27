@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import days from './days-db';
-import DayList from './DayList';
+import DayList from './DayList.jsx';
 
 import "components/Application.scss";
 

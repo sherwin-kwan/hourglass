@@ -11,6 +11,10 @@ import DayList from 'components/DayList.jsx';
 import days from 'components/days-db';
 import InterviewerListItem from 'components/InterviewerListItem.jsx';
 import InterviewerList from 'components/InterviewerList.jsx';
+import Appointment from 'components/Appointment/index.jsx'; /* Why doesn't this work?? */
+import AppointmentHeader from 'components/Appointment/Header.jsx';
+import AppointmentEmpty from 'components/Appointment/Empty.jsx';
+import AppointmentShow from 'components/Appointment/Show.jsx';
 
 storiesOf("Button", module)
   .addParameters({
@@ -117,5 +121,26 @@ storiesOf("InterviewerListItem", module)
         interviewer={3}
         setInterviewer={action("setInterviewer")}
       />
+    ));
+  
+    // appointments stories
+
+    storiesOf('Appointment', module)
+    .addParameters({
+      backgrounds: [{ name: "white", value: "#fff", default: true }]
+    })
+    .add("Appointment", () => <Appointment />)
+    .add('Appointment with time', () => <Appointment
+      time = '12'
+    />)  
+    .add("AppointmentHeader", () => {
+      return <AppointmentHeader time='12pm' />
+    })
+    .add("AppointmentEmpty", () => (
+      <AppointmentEmpty onAdd={action("onAdd")} />
+    ))
+    .add("AppointmentShow", () => (
+      <AppointmentShow onEdit={action('Someone clicked Edit!!')} onDelete={action('You clicked Delete!!')}
+      candidate='Jane Doe' interviewer='Chen Xiaoming'/>
     ));
   
