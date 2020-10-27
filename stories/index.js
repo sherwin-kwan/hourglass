@@ -157,6 +157,6 @@ storiesOf("InterviewerListItem", module)
       <AppointmentStatus message='Saving' />
     ))
     .add("Error", () => (
-      <AppointmentError />
+      <AppointmentError message="These are not the droids you're looking for" onClose={action("you clicked the good ol' X")} />
     ));
   
