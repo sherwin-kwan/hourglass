@@ -2,17 +2,18 @@ import React from 'react';
 import classnames from 'classnames';
 import './InterviewerListItem.scss';
 
+// Props include: id, name, avatar, selected, setInterviewer
 const InterviewerListItem = (props) => {
   const liClass = classnames('interviewers__item', {'interviewers__item--selected': props.selected});
-  return (
-    <li className={liClass} onClick={props.setInterviewer}>
+  return (<>
+    <li key={props.id} className={liClass} onClick={props.setInterviewer}>
       <img
         className="interviewers__item-image"
         src={props.avatar} 
-        alt="Sylvia Palmer"
+        alt={props.name}
       />
-    {props.selected && 'Sylvia Palmer'}
-    </li>
+    {props.selected && props.name}
+    </li></>
   );
 };
 
