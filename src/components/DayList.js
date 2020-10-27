@@ -3,7 +3,7 @@ import DayListItem from './DayListItem';
 
 const DayList = (props) => {
   const content = props.days.map((d) => {
-    return (<DayListItem name={d.name} spots={d.spots} selected={d.name === props.day} setDay={props.setDay} />);
+    return (<DayListItem name={d.name} spots={d.spots} selected={d.name === props.day} setDay={(event) => {props.setDay(d.name)}} />);
   });
   return (
     <>

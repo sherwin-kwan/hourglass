@@ -2,7 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import './InterviewerListItem.scss';
 
-// Props include: id, name, avatar, selected, setInterviewer
+// Props include: name, avatar, selected, setInterviewer
 const InterviewerListItem = (props) => {
   const liClass = classnames('interviewers__item', {'interviewers__item--selected': props.selected});
   return (<>
