@@ -1,6 +1,6 @@
 import React from 'react';
 import './InterviewerList.scss';
-import InterviewerListItem from './InterviewerListItem';
+import InterviewerListItem from './InterviewerListItem.jsx';
 
 // Props include: interviewers [array], interviewer, setInterviewer
 
