@@ -4,28 +4,42 @@ import Appointment from './Appointment';
 import axios from 'axios';
 
 // Databases
-import appointments from './timeslots-db';
+// import appointments from './timeslots-db';
 // import days from './days-db';
-import interviewers from './interviewers-db';
+// import interviewers from './interviewers-db';
 
 import "components/Application.scss";
+import getAppointmentsForDay from "helpers/selectors.js";
 
 export default function Application(props) {
 
-  const theState = useState('Monday');
-  const day = theState[0];
-  const setDay = theState[1];
-  const [days, setDays] = useState([]);
+  const [state, setState] = useState({
+    day: 'Monday',
+    days: [],
+    appointments: []
+  });
+
+  const setDay = (val) => {
+    return setState(prev => {
+      return Object.assign({}, prev, {day: val} );
+    });
+  };
+
+  const filteredAppointments = getAppointmentsForDay(state, state.day);
+  console.log(filteredAppointments);
 
   useEffect(() => {
     const fetchData = async function () {
-      const result = await axios.get('/api/days');
-      setDays(result.data);
-    }
+      const daysResult = await axios.get('/api/days');
+      const appointmentsResult = await axios.get('/api/appointments');
+      setState(prev => {
+        return Object.assign({}, prev, {days: daysResult.data, appointments: appointmentsResult.data})
+      })
+    };
     fetchData();
   }, []);
 
-  const list_of_appointments = appointments.map((timeslot) => {
+  const list_of_appointments = filteredAppointments.map((timeslot) => {
     return (
       <Appointment key={timeslot.id} {...timeslot} />
     );
@@ -40,8 +54,8 @@ export default function Application(props) {
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
           <DayList
-            days={days}
-            day={day}
+            days={state.days}
+            day={state.day}
             setDay={setDay}
           />
         </nav>

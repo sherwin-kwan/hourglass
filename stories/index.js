@@ -139,7 +139,7 @@ storiesOf('Appointment Components', module)
   ))
   .add("Show", () => (
     <AppointmentShow onEdit={action('Someone clicked Edit!!')} onDelete={action('You clicked Delete!!')}
-      candidate='Jane Doe' interviewer='Chen Xiaoming' />
+      student='Jane Doe' interviewer='Chen Xiaoming' />
   ))
   .add("Confirm", () => (
     <AppointmentConfirm message='Really delete this appointment?' onConfirm={action('You just signed your life away!')}
@@ -167,7 +167,7 @@ storiesOf('Appointments', module)
   })
   .add("Appointment Empty", () => (
     <>
-      <Appointment id={1} interview={{ candidate: "Lydia Miller-Jones", interviewer: "Sylvia" }} time="12pm" />
+      <Appointment id={1} interview={{ student: "Lydia Miller-Jones", interviewer: "Sylvia" }} time="12pm" />
       <Appointment id="last" time="1pm" />
       <Appointment id="aa" time="2pm" />
     </>

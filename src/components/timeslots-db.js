@@ -5,7 +5,7 @@ const appointments = [
     id: 1,
     time: "12pm",
     interview: {
-      candidate: "Lydia Miller-Jones",
+      student: "Lydia Miller-Jones",
       interviewer: interviewers[0]
     }
   },
@@ -17,7 +17,7 @@ const appointments = [
     id: 3,
     time: "2pm",
     interview: {
-      candidate: "Bob Marley",
+      student: "Bob Marley",
       interviewer: interviewers[2]
     }
   },
@@ -25,7 +25,7 @@ const appointments = [
     id: 4,
     time: "3pm",
     interview: {
-      candidate: "Snoop Dogg",
+      student: "Snoop Dogg",
       interviewer: interviewers[3]
     }
   },  
@@ -33,7 +33,7 @@ const appointments = [
     id: 5,
     time: "4pm",
     interview: {
-      candidate: "Ryan Tedder",
+      student: "Ryan Tedder",
       interviewer: interviewers[1]
     }
   },
