@@ -18,6 +18,7 @@ import AppointmentShow from 'components/Appointment/Show';
 import AppointmentConfirm from 'components/Appointment/Confirm';
 import AppointmentStatus from 'components/Appointment/Status';
 import AppointmentError from 'components/Appointment/Error';
+import AppointmentForm from 'components/Appointment/Form';
 
 storiesOf("Button", module)
   .addParameters({
@@ -96,67 +97,72 @@ storiesOf("InterviewerListItem", module)
       setInterviewer={event => action("setInterviewer")(interviewer.id)}
     />
   ));
-  
 
-  // Interviewer List Stories
 
-  const interviewers = [
-    { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
-    { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" },
-    { id: 3, name: "Mildred Nazir", avatar: "https://i.imgur.com/T2WwVfS.png" },
-    { id: 4, name: "Cohana Roy", avatar: "https://i.imgur.com/FK8V841.jpg" },
-    { id: 5, name: "Sven Jones", avatar: "https://i.imgur.com/twYrpay.jpg" }
-  ];
-  
-  storiesOf("InterviewerList", module)
-    .addParameters({
-      backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
-    })
-    .add("Initial", () => (
-      <InterviewerList
-        interviewers={interviewers}
-        setInterviewer={action("setInterviewer")}
-      />
-    ))
-    .add("Preselected", () => (
-      <InterviewerList
-        interviewers={interviewers}
-        interviewer={3}
-        setInterviewer={action("setInterviewer")}
-      />
-    ));
-  
-    // appointments stories
+// Interviewer List Stories
 
-    storiesOf('Appointment', module)
-    .addParameters({
-      backgrounds: [{ name: "white", value: "#fff", default: true }]
-    })
-    .add("Appointment", () => <Appointment />)
-    .add('Appointment with time', () => <Appointment
-      time = '12'
-    />)  
-    .add("Header", () => {
-      return <AppointmentHeader time='12pm' />
-    })
-    .add("Empty", () => (
-      <AppointmentEmpty onAdd={action("onAdd")} />
-    ))
-    .add("Show", () => (
-      <AppointmentShow onEdit={action('Someone clicked Edit!!')} onDelete={action('You clicked Delete!!')}
-      candidate='Jane Doe' interviewer='Chen Xiaoming'/>
-    ))
-    .add("Confirm", () => (
-      <AppointmentConfirm message='Really delete this appointment?' onConfirm={action('You just signed your life away!')} 
-      onCancel={action('You backed off!')}/>
-    ))
-    .add("Delete", () => (
-      <AppointmentStatus message='Deleting' />
-    ))
-    .add("Save", () => (
-      <AppointmentStatus message='Saving' />
-    ))
-    .add("Error", () => (
-      <AppointmentError message="These are not the droids you're looking for" onClose={action("you clicked the good ol' X")} />
-    ));
-  
+const interviewers = [
+  { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
+  { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" },
+  { id: 3, name: "Mildred Nazir", avatar: "https://i.imgur.com/T2WwVfS.png" },
+  { id: 4, name: "Cohana Roy", avatar: "https://i.imgur.com/FK8V841.jpg" },
+  { id: 5, name: "Sven Jones", avatar: "https://i.imgur.com/twYrpay.jpg" }
+];
+
+storiesOf("InterviewerList", module)
+  .addParameters({
+    backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
+  })
+  .add("Initial", () => (
+    <InterviewerList
+      interviewers={interviewers}
+      setInterviewer={action("setInterviewer")}
+    />
+  ))
+  .add("Preselected", () => (
+    <InterviewerList
+      interviewers={interviewers}
+      interviewer={3}
+      setInterviewer={action("setInterviewer")}
+    />
+  ));
+
+// appointments stories
+
+storiesOf('Appointment', module)
+  .addParameters({
+    backgrounds: [{ name: "white", value: "#fff", default: true }]
+  })
+  .add("Appointment", () => <Appointment />)
+  .add('Appointment with time', () => <Appointment
+    time='12'
+  />)
+  .add("Header", () => {
+    return <AppointmentHeader time='12pm' />
+  })
+  .add("Empty", () => (
+    <AppointmentEmpty onAdd={action("onAdd")} />
+  ))
+  .add("Show", () => (
+    <AppointmentShow onEdit={action('Someone clicked Edit!!')} onDelete={action('You clicked Delete!!')}
+      candidate='Jane Doe' interviewer='Chen Xiaoming' />
+  ))
+  .add("Confirm", () => (
+    <AppointmentConfirm message='Really delete this appointment?' onConfirm={action('You just signed your life away!')}
+      onCancel={action('You backed off!')} />
+  ))
+  .add("Delete", () => (
+    <AppointmentStatus message='Deleting' />
+  ))
+  .add("Save", () => (
+    <AppointmentStatus message='Saving' />
+  ))
+  .add("Error", () => (
+    <AppointmentError message="These are not the droids you're looking for" onClose={action("you clicked the good ol' X")} />
+  ))
+  .add("Form - Create App", () => (
+    < AppointmentForm interviewers={interviewers} onSave={action('Save')} onCancel={action('Cancel')} />
+  ))
+  .add("Form - Edit App", () => (
+    < AppointmentForm interviewers={interviewers} name='James' interviewer={3} onSave={action('Save')} onCancel={action('Cancel')} />
+  ))

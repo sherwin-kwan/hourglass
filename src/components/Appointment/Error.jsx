@@ -1,5 +1,4 @@
 import React from 'react';
-import AppointmentEmpty from './Empty';
 import './styles.scss';
 
 const AppointmentError = (props) => {
