@@ -1,20 +1,45 @@
+import interviewers from './interviewers-db';
 
 const appointments = [
   {
     id: 1,
     time: "12pm",
+    interview: {
+      candidate: "Lydia Miller-Jones",
+      interviewer: interviewers[0]
+    }
   },
   {
     id: 2,
-    time: "1pm",
+    time: "1pm"
+  },
+  {
+    id: 3,
+    time: "2pm",
     interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 1,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      }
+      candidate: "Bob Marley",
+      interviewer: interviewers[2]
     }
+  },
+  {
+    id: 4,
+    time: "3pm",
+    interview: {
+      candidate: "Snoop Dogg",
+      interviewer: interviewers[3]
+    }
+  },  
+  {
+    id: 5,
+    time: "4pm",
+    interview: {
+      candidate: "Ryan Tedder",
+      interviewer: interviewers[1]
+    }
+  },
+  {
+    id: 'last',
+    time: "5pm",
   }
 ];
 

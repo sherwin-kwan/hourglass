@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import days from './days-db';
 import DayList from './DayList.jsx';
+import Appointment from './Appointment';
+
+// Databases
 import appointments from './timeslots-db';
+import days from './days-db';
+import interviewers from './interviewers-db';
 
 import "components/Application.scss";
 
@@ -10,6 +14,12 @@ export default function Application(props) {
   const theState = useState('Monday');
   const day = theState[0];
   const setDay = theState[1];
+
+  const list_of_appointments = appointments.map((timeslot) => {
+    return (
+      <Appointment key={timeslot.id} {...timeslot}/>
+    );
+  })
   return (
     <main className="layout">
       <section className="sidebar"><img
@@ -33,6 +43,7 @@ export default function Application(props) {
 
       </section>
       <section className="schedule">
+        {list_of_appointments}
         {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
       </section>
     </main>

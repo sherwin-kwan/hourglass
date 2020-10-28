@@ -5,7 +5,7 @@ import AppointmentShow from './Show.jsx';
 import AppointmentEmpty from './Empty.jsx';
 
 const Appointment = (props) => {
-  const body = (props.interview) ? <AppointmentShow candidate={props.interview.candidate} interviewer={props.interview.interviewer} /> 
+  const body = (props.interview) ? <AppointmentShow candidate={props.interview.candidate} interviewer={props.interview.interviewer.name} /> 
   : <AppointmentEmpty />;
   return (
     <article className="appointment">
