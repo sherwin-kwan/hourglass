@@ -129,7 +129,7 @@ storiesOf("InterviewerList", module)
 
 // appointments stories
 
-storiesOf('Appointment', module)
+storiesOf('Appointment Components', module)
   .addParameters({
     backgrounds: [{ name: "white", value: "#fff", default: true }]
   })
@@ -165,4 +165,16 @@ storiesOf('Appointment', module)
   ))
   .add("Form - Edit App", () => (
     < AppointmentForm interviewers={interviewers} name='James' interviewer={3} onSave={action('Save')} onCancel={action('Cancel')} />
+  ))
+
+storiesOf('Appointments', module)
+  .addParameters({
+    backgrounds: [{ name: "white", value: "#fff", default: true }]
+  })
+  .add("Appointment Empty", () => (
+    <>
+      <Appointment id={1} interview={{ candidate: "Lydia Miller-Jones", interviewer: "Sylvia" }} time="12pm" />
+      <Appointment id="last" time="1pm" />
+      <Appointment id="aa" time="2pm" />
+    </>
   ))

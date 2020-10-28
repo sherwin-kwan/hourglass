@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import days from './days-db';
 import DayList from './DayList.jsx';
+import appointments from './timeslots-db';
 
 import "components/Application.scss";
 
