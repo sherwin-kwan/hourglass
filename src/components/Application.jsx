@@ -9,19 +9,20 @@ import axios from 'axios';
 // import interviewers from './interviewers-db';
 
 import "components/Application.scss";
-import getAppointmentsForDay from "helpers/selectors.js";
+import { getAppointmentsForDay, getInterview } from "helpers/selectors.js";
 
 export default function Application(props) {
 
   const [state, setState] = useState({
     day: 'Monday',
     days: [],
-    appointments: []
+    appointments: [],
+    interviewers: []
   });
 
   const setDay = (val) => {
     return setState(prev => {
-      return Object.assign({}, prev, {day: val} );
+      return Object.assign({}, prev, { day: val });
     });
   };
 
@@ -32,8 +33,9 @@ export default function Application(props) {
     const fetchData = async function () {
       const daysResult = await axios.get('/api/days');
       const appointmentsResult = await axios.get('/api/appointments');
+      const interviewersResult = await axios.get('/api/interviewers');
       setState(prev => {
-        return Object.assign({}, prev, {days: daysResult.data, appointments: appointmentsResult.data})
+        return Object.assign({}, prev, { days: daysResult.data, appointments: appointmentsResult.data, interviewers: interviewersResult.data })
       })
     };
     fetchData();
@@ -41,7 +43,11 @@ export default function Application(props) {
 
   const list_of_appointments = filteredAppointments.map((timeslot) => {
     return (
-      <Appointment key={timeslot.id} {...timeslot} />
+      <Appointment
+        key={timeslot.id}
+        id={timeslot.id}
+        time={timeslot.time}
+        interview={getInterview(state, timeslot.interview)} />
     );
   })
   return (
@@ -55,6 +61,7 @@ export default function Application(props) {
         <nav className="sidebar__menu">
           <DayList
             days={state.days}
+            key={state.day}
             day={state.day}
             setDay={setDay}
           />
