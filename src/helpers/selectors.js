@@ -18,7 +18,7 @@ export const getAppointmentsForDay = (state, day) => {
 export const getInterviewersForDay = (state, day) => {
   // ... returns an array of interviewers available on that day
   // an interviewer object contains: id, name, avatar
-  const {days, interviewers} = state;
+  const { days, interviewers } = state;
   if (days.length === 0 || interviewers.length === 0) {
     return [];
   }
@@ -34,12 +34,13 @@ export const getInterviewersForDay = (state, day) => {
 export const getInterview = (state, interview) => {
   const interviewersArray = Object.values(state.interviewers);
   if (interview) {
-    const interviewerObject = interviewersArray.filter((person) => person.id = interview.interviewer)[0];
+    const interviewerObject = interviewersArray.find((person) => person.id === interview.interviewer);
     console.log('interviewer object is: ', interviewerObject);
     console.log('interview is: ', interview);
-    return Object.assign({}, interview, {
+    return {
+      ...interview,
       interviewer: interviewerObject
-    })
+    }
   } else {
     return null;
   }

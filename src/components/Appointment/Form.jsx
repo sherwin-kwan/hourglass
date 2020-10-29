@@ -37,7 +37,7 @@ const AppointmentForm = (props) => {
           */
           />
         </form>
-        <InterviewerList interviewers={props.interviewers} interviewer={currentInterviewer}
+        <InterviewerList interviewers={props.interviewers} interviewer={interviewer}
          setInterviewer={setInterviewer}
         />
       </section>
