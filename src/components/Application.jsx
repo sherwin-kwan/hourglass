@@ -6,10 +6,10 @@ import axios from 'axios';
 // Databases
 // import appointments from './timeslots-db';
 // import days from './days-db';
-// import interviewers from './interviewers-db';
+import interviewers from './interviewers-db';
 
 import "components/Application.scss";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors.js";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors.js";
 
 export default function Application(props) {
 
@@ -26,6 +26,10 @@ export default function Application(props) {
     });
   };
 
+  const setInterviewer = () => {
+
+  };
+
   const filteredAppointments = getAppointmentsForDay(state, state.day);
   console.log(filteredAppointments);
 
@@ -34,6 +38,8 @@ export default function Application(props) {
       const daysResult = await axios.get('/api/days');
       const appointmentsResult = await axios.get('/api/appointments');
       const interviewersResult = await axios.get('/api/interviewers');
+      console.log('an appointment object looks like: ', appointmentsResult.data[1]);
+      console.log('an interviewer object looks like: ', interviewersResult.data[1]);
       setState(prev => {
         return Object.assign({}, prev, { days: daysResult.data, appointments: appointmentsResult.data, interviewers: interviewersResult.data })
       })
@@ -41,42 +47,42 @@ export default function Application(props) {
     fetchData();
   }, []);
 
-  const list_of_appointments = filteredAppointments.map((timeslot) => {
+    const list_of_appointments = filteredAppointments.map((timeslot) => {
+      return (
+        <Appointment
+          key={timeslot.id}
+          id={timeslot.id}
+          time={timeslot.time}
+          interview={getInterview(state, timeslot.interview)}
+          interviewers={getInterviewersForDay(state, state.day)}  />
+      );
+    })
     return (
-      <Appointment
-        key={timeslot.id}
-        id={timeslot.id}
-        time={timeslot.time}
-        interview={getInterview(state, timeslot.interview)} />
-    );
-  })
-  return (
-    <main className="layout">
-      <section className="sidebar"><img
-        className="sidebar--centered"
-        src="images/logo.png"
-        alt="Interview Scheduler"
-      />
-        <hr className="sidebar__separator sidebar--centered" />
-        <nav className="sidebar__menu">
-          <DayList
-            days={state.days}
-            key={state.day}
-            day={state.day}
-            setDay={setDay}
-          />
-        </nav>
-        <img
-          className="sidebar__lhl sidebar--centered"
-          src="images/lhl.png"
-          alt="Lighthouse Labs"
+      <main className="layout">
+        <section className="sidebar"><img
+          className="sidebar--centered"
+          src="images/logo.png"
+          alt="Interview Scheduler"
         />
+          <hr className="sidebar__separator sidebar--centered" />
+          <nav className="sidebar__menu">
+            <DayList
+              days={state.days}
+              key={state.day}
+              day={state.day}
+              setDay={setDay}
+            />
+          </nav>
+          <img
+            className="sidebar__lhl sidebar--centered"
+            src="images/lhl.png"
+            alt="Lighthouse Labs"
+          />
 
-      </section>
-      <section className="schedule">
-        {list_of_appointments}
-        {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
-      </section>
-    </main>
-  );
+        </section>
+        <section className="schedule">
+          {list_of_appointments}
+        </section>
+      </main>
+    );
 }

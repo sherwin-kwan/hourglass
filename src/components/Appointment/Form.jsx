@@ -3,6 +3,9 @@ import './styles.scss';
 import InterviewerList from '../InterviewerList';
 import Button from '../Button';
 
+// Form has the props: name, interviewer (an ID), interviewers (a list of interviewers), onSave (a function to submit an appointment request)
+// onCancel (a function to go back)
+// Interviewer is only present with using the form to edit, not create
 const AppointmentForm = (props) => {
   const currentName = (props.name) || '';
   const currentInterviewer = (props.interviewer) || 0;
@@ -34,7 +37,7 @@ const AppointmentForm = (props) => {
           */
           />
         </form>
-        <InterviewerList interviewers={props.interviewers} interviewer={interviewer}
+        <InterviewerList interviewers={props.interviewers} interviewer={currentInterviewer}
          setInterviewer={setInterviewer}
         />
       </section>
