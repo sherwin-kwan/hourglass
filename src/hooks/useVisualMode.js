@@ -3,28 +3,31 @@
 import React, { useState } from 'react';
 
 const useVisualMode = (initial) => {
-  const [mode, setMode] = useState(initial);  
-  const [history, setHistory] = useState([initial]); // This line is new!
+  // const [mode, setMode] = useState(initial);
+  const [history, setHistory] = useState([initial]); 
 
-  const transition = (newMode) => {
+  const transition = (newMode, isReplace) => {
     // setMode(newMode);
     setHistory(prev => {
       console.log('prev is: ', prev);
       const arr = [...prev];
-      arr.push(newMode);
+      if (isReplace) {
+        arr.splice(arr.length - 1, 1, newMode);
+      } else {
+        arr.push(newMode);
+      }
+      console.log('arr is now: ', arr);
       return arr;
     })
   };
 
   const back = () => {
-    console.log('in the beginning, history is: ', history)
     if (history.length > 1) {
       setHistory(prev => {
         const arr = [...prev];
         arr.pop();
         return arr;
       });
-      console.log('after popping, history is: ', history)
       // setMode(history[history.length - 1]);
     }
   };
