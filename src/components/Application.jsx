@@ -26,9 +26,19 @@ export default function Application(props) {
     });
   };
 
-  const setInterviewer = () => {
-
+  function bookInterview(id, interview) {
+    console.log('Booking timeslot ' + id + ' for an interview as follows: ', interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    setState({...state, appointments });
   };
+
 
   const filteredAppointments = getAppointmentsForDay(state, state.day);
   console.log(filteredAppointments);
@@ -54,6 +64,7 @@ export default function Application(props) {
           id={timeslot.id}
           time={timeslot.time}
           interview={getInterview(state, timeslot.interview)}
+          bookInterview={bookInterview}
           interviewers={getInterviewersForDay(state, state.day)}  />
       );
     })

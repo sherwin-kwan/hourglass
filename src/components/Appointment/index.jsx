@@ -16,8 +16,17 @@ const Appointment = (props) => {
   const empty = 'EMPTY';
   const show = 'SHOW';
 
-
   const { mode, transition, back } = useVisualMode((props.interview) ? (show) : (empty));
+
+  function save(name, interviewer) {
+    const interview = {
+      student: name,
+      interviewer
+    };
+    props.bookInterview(props.id, interview);
+    transition(show);
+  };
+  
 
   return (
     <article className="appointment">
@@ -37,7 +46,7 @@ const Appointment = (props) => {
             name = 'Samuel L. Jackson'
             interviewers = {props.interviewers}
             interviewer = {props.interviewer}
-            onSave = {() => console.log('This is how saving happens!')}
+            onSave = {save}
             onCancel = {back}
           />
         )
