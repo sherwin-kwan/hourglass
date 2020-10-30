@@ -33,6 +33,7 @@ const Appointment = (props) => {
       const didSaveSucceed = await props.bookInterview(props.id, interview);
       transition(show, true);
     } catch (err) {
+      console.log(err);
       transition(errorSave, true);
     };
   };
@@ -43,6 +44,7 @@ const Appointment = (props) => {
       const didCancelSucceed = await props.onDelete();
       transition(empty, true);
     } catch (err) {
+      console.log(err);
       transition(errorDelete, true);
     };
   };

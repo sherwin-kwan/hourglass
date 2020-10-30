@@ -32,6 +32,17 @@ const useApplicationData = () => {
     });
   };
 
+  // const updateSpotsRemaining = async (id, isCreating) => {
+  //   // Set the new number of spots remaining
+  //   const dayIndex = state.days.findIndex(d => d.appointments.includes(id));
+  //   const spots = (isCreating) ? state.days[dayIndex].spots - 1 : state.days[dayIndex2].spots + 1;
+  //   const newDay = { ...state.days[dayIndex], spots };
+  //   console.log('by incrementing: ', newDay);
+  //   const newDays = [...state.days];
+  //   newDays[dayIndex] = newDay;
+  //   return newDays;
+  // }
+
   // Usable for creating or editing interview appointments. "Interview" is the new interview object which is added to or replaces the existing
   // interview in an appointment slot
   function bookInterview(id, interview) {
@@ -48,8 +59,9 @@ const useApplicationData = () => {
       const didSaveSucceed = await axios.put(`/api/appointments/${id}`, {
         interview
       });
-      console.log('didsavesucceed? ', didSaveSucceed);
-      setState({ ...state, appointments });
+      const response = await axios.get('/api/days')
+      const newDays = response.data;
+      setState({ ...state, appointments, days: newDays });
       return didSaveSucceed;
     };
     return trySaving();
@@ -59,17 +71,19 @@ const useApplicationData = () => {
     console.log(`Cancelling interview in timeslot ${id}`);
     async function tryCancelling() {
       const didCancelSucceed = await axios.delete(`/api/appointments/${id}`);
-      console.log('didcancelsucceed? ', didCancelSucceed);
+      // console.log('didcancelsucceed? ', didCancelSucceed);
       let temp = state.appointments[id];
       temp.interview = null;
-      const newAppointments = {...state.appointments, [id]: temp}
-      setState({...state, newAppointments});
+      const newAppointments = { ...state.appointments, [id]: temp }
+      const response = await axios.get('/api/days')
+      const newDays = response.data;
+      setState({ ...state, newAppointments, days: newDays });
       return didCancelSucceed;
     };
     return tryCancelling();
   };
 
-  
+
 
   return { state, setDay, bookInterview, cancelInterview };
 };

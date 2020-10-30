@@ -24,9 +24,9 @@ export const getInterviewersForDay = (state, day) => {
   }
   const thisDay = days.find(d => d.name === day);
   if (!thisDay) return [];
-  console.log('interviewers: ', Object.values(interviewers), 'filter is: ', thisDay.interviewers);
+  // console.log('interviewers: ', Object.values(interviewers), 'filter is: ', thisDay.interviewers);
   const interviewerArray = Object.values(interviewers).filter(person => thisDay.interviewers.includes(person.id));
-  console.log('Filtered array: ', interviewerArray);
+  // console.log('Filtered array: ', interviewerArray);
   return interviewerArray;
 }
 
@@ -35,8 +35,8 @@ export const getInterview = (state, interview) => {
   const interviewersArray = Object.values(state.interviewers);
   if (interview) {
     const interviewerObject = interviewersArray.find((person) => person.id === interview.interviewer);
-    console.log('interviewer object is: ', interviewerObject);
-    console.log('interview is: ', interview);
+    // console.log('interviewer object is: ', interviewerObject);
+    // console.log('interview is: ', interview);
     return {
       ...interview,
       interviewer: interviewerObject
