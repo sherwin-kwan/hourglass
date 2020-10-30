@@ -36,8 +36,30 @@ export default function Application(props) {
       ...state.appointments,
       [id]: appointment
     };
-    setState({...state, appointments });
+    async function trySaving() {
+      const didSaveSucceed = await axios.put(`/api/appointments/${id}`, {
+        interview
+      });
+      console.log('didsavesucceed? ', didSaveSucceed);
+      setState({ ...state, appointments });
+      return didSaveSucceed;
+    };
+    return trySaving();
   };
+
+  function cancelInterview(id) {
+    console.log(`Cancelling interview in timeslot ${id}`);
+    async function tryCancelling() {
+      const didCancelSucceed = await axios.delete(`/api/appointments/${id}`);
+      console.log('didcancelsucceed? ', didCancelSucceed);
+      let temp = state.appointments[id];
+      temp.interview = null;
+      const newAppointments = {...state.appointments, [id]: temp}
+      setState({...state, newAppointments});
+      return didCancelSucceed;
+    };
+    return tryCancelling();
+  }
 
 
   const filteredAppointments = getAppointmentsForDay(state, state.day);
@@ -57,43 +79,44 @@ export default function Application(props) {
     fetchData();
   }, []);
 
-    const list_of_appointments = filteredAppointments.map((timeslot) => {
-      return (
-        <Appointment
-          key={timeslot.id}
-          id={timeslot.id}
-          time={timeslot.time}
-          interview={getInterview(state, timeslot.interview)}
-          bookInterview={bookInterview}
-          interviewers={getInterviewersForDay(state, state.day)}  />
-      );
-    })
+  const list_of_appointments = filteredAppointments.map((timeslot) => {
     return (
-      <main className="layout">
-        <section className="sidebar"><img
-          className="sidebar--centered"
-          src="images/logo.png"
-          alt="Interview Scheduler"
-        />
-          <hr className="sidebar__separator sidebar--centered" />
-          <nav className="sidebar__menu">
-            <DayList
-              days={state.days}
-              key={state.day}
-              day={state.day}
-              setDay={setDay}
-            />
-          </nav>
-          <img
-            className="sidebar__lhl sidebar--centered"
-            src="images/lhl.png"
-            alt="Lighthouse Labs"
-          />
-
-        </section>
-        <section className="schedule">
-          {list_of_appointments}
-        </section>
-      </main>
+      <Appointment
+        key={timeslot.id}
+        id={timeslot.id}
+        time={timeslot.time}
+        interview={getInterview(state, timeslot.interview)}
+        bookInterview={bookInterview}
+        onDelete={() => cancelInterview(timeslot.id)}
+        interviewers={getInterviewersForDay(state, state.day)} />
     );
+  })
+  return (
+    <main className="layout">
+      <section className="sidebar"><img
+        className="sidebar--centered"
+        src="images/logo.png"
+        alt="Interview Scheduler"
+      />
+        <hr className="sidebar__separator sidebar--centered" />
+        <nav className="sidebar__menu">
+          <DayList
+            days={state.days}
+            key={state.day}
+            day={state.day}
+            setDay={setDay}
+          />
+        </nav>
+        <img
+          className="sidebar__lhl sidebar--centered"
+          src="images/lhl.png"
+          alt="Lighthouse Labs"
+        />
+
+      </section>
+      <section className="schedule">
+        {list_of_appointments}
+      </section>
+    </main>
+  );
 }
