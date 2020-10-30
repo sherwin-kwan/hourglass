@@ -6,6 +6,7 @@ import AppointmentEmpty from './Empty.jsx';
 import AppointmentForm from './Form.jsx';
 import AppointmentStatus from './Status.jsx';
 import AppointmentError from './Error.jsx';
+import AppointmentConfirm from './Confirm.jsx';
 import useVisualMode from 'hooks/useVisualMode';
 import interviewers from '../interviewers-db';
 import { getInterviewersForDay } from 'helpers/selectors';
@@ -14,7 +15,9 @@ import { getInterviewersForDay } from 'helpers/selectors';
 
 const Appointment = (props) => {
 
+  const confirm = 'CONFIRM';
   const create = 'CREATE';
+  const deleting = 'DELETING';
   const error = 'ERROR';
   const empty = 'EMPTY';
   const saving = 'SAVING';
@@ -30,19 +33,19 @@ const Appointment = (props) => {
     try {
       transition(saving);
       const didSaveSucceed = await props.bookInterview(props.id, interview);
-      transition(show);
+      transition(show, true);
     } catch (err) {
-      transition(error);
+      transition(error, true);
     };
   };
 
   async function deleteThis() {
     try {
-      transition(saving);
+      transition(deleting);
       const didCancelSucceed = await props.onDelete();
-      transition(empty);
+      transition(empty, true);
     } catch (err) {
-      transition(error);
+      transition(error, true);
     };
   };
   
@@ -57,7 +60,7 @@ const Appointment = (props) => {
             student={props.interview.student}
             interviewer={props.interview.interviewer.name}
             onEdit={console.log('Editing')}
-            onDelete={deleteThis}
+            onDelete={() => transition(confirm)}
           />
         )
       }
@@ -75,6 +78,16 @@ const Appointment = (props) => {
       {
         mode === saving && (
           <AppointmentStatus message="Saving" />
+        )
+      }
+      {
+        mode === confirm && (
+          <AppointmentConfirm message="Really cancel this interview?" onConfirm={deleteThis} onCancel={back} />
+        )
+      }
+      {
+        mode === deleting && (
+          <AppointmentStatus message="Deleting" />
         )
       }
       {
