@@ -8,10 +8,6 @@ import AppointmentStatus from './Status.jsx';
 import AppointmentError from './Error.jsx';
 import AppointmentConfirm from './Confirm.jsx';
 import useVisualMode from 'hooks/useVisualMode';
-import interviewers from '../interviewers-db';
-import { getInterviewersForDay } from 'helpers/selectors';
-
-
 
 const Appointment = (props) => {
 
@@ -19,7 +15,8 @@ const Appointment = (props) => {
   const create = 'CREATE';
   const deleting = 'DELETE';
   const edit = 'EDIT';
-  const error = 'ERROR';
+  const errorDelete = 'ERROR_DELETE';
+  const errorSave = 'ERROR_SAVE';
   const empty = 'EMPTY';
   const saving = 'SAVE';
   const show = 'SHOW';
@@ -36,7 +33,7 @@ const Appointment = (props) => {
       const didSaveSucceed = await props.bookInterview(props.id, interview);
       transition(show, true);
     } catch (err) {
-      transition(error, true);
+      transition(errorSave, true);
     };
   };
 
@@ -46,7 +43,7 @@ const Appointment = (props) => {
       const didCancelSucceed = await props.onDelete();
       transition(empty, true);
     } catch (err) {
-      transition(error, true);
+      transition(errorDelete, true);
     };
   };
 
@@ -93,17 +90,22 @@ const Appointment = (props) => {
       }
       {
         mode === confirm && (
-          <AppointmentConfirm message="Really cancel this interview?" onConfirm={deleteThis} onCancel={back} />
+          <AppointmentConfirm message="Really cancel this interview?" onConfirm={deleteThis} onCancel={back} onConfirmText="Yes" onCancelText="No" />
         )
       }
       {
         mode === deleting && (
-          <AppointmentStatus message="Deleting" />
+          <AppointmentStatus message="Cancelling" />
         )
       }
       {
-        mode === error && (
-          <AppointmentError onClose={back} message="Error" />
+        mode === errorSave && (
+          <AppointmentError onClose={back} message="Sorry, could not save. Please try again later." />
+        )
+      }
+      {
+        mode === errorDelete && (
+          <AppointmentError onClose={back} message="Sorry, could not cancel. Please try again later." />
         )
       }
 
