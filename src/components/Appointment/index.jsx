@@ -17,10 +17,11 @@ const Appointment = (props) => {
 
   const confirm = 'CONFIRM';
   const create = 'CREATE';
-  const deleting = 'DELETING';
+  const deleting = 'DELETE';
+  const edit = 'EDIT';
   const error = 'ERROR';
   const empty = 'EMPTY';
-  const saving = 'SAVING';
+  const saving = 'SAVE';
   const show = 'SHOW';
 
   const { mode, transition, back } = useVisualMode((props.interview) ? (show) : (empty));
@@ -41,14 +42,14 @@ const Appointment = (props) => {
 
   async function deleteThis() {
     try {
-      transition(deleting);
+      transition(deleting, true);
       const didCancelSucceed = await props.onDelete();
       transition(empty, true);
     } catch (err) {
       transition(error, true);
     };
   };
-  
+
 
   return (
     <article className="appointment">
@@ -59,20 +60,30 @@ const Appointment = (props) => {
           <AppointmentShow
             student={props.interview.student}
             interviewer={props.interview.interviewer.name}
-            onEdit={console.log('Editing')}
+            onEdit={() => transition(edit)}
             onDelete={() => transition(confirm)}
           />
         )
       }
       {
         mode === create && (
-          <AppointmentForm 
-            name = 'Samuel L. Jackson'
-            interviewers = {props.interviewers}
-            interviewer = {props.interviewer}
-            onSave = {save}
-            onCancel = {back}
+          <AppointmentForm
+            name='Samuel L. Jackson'
+            interviewers={props.interviewers}
+            interviewer={props.interviewer}
+            onSave={save}
+            onCancel={back}
           />
+        )
+      }
+      {
+        mode === edit && (
+          <AppointmentForm
+            name={props.interview.student}
+            interviewers={props.interviewers}
+            interviewer={props.interview.interviewer.id}
+            onSave={save}
+            onCancel={back} />
         )
       }
       {
@@ -92,7 +103,7 @@ const Appointment = (props) => {
       }
       {
         mode === error && (
-          <AppointmentError onClose={console.log('Close')} message="Error" />
+          <AppointmentError onClose={back} message="Error" />
         )
       }
 

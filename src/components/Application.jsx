@@ -26,6 +26,8 @@ export default function Application(props) {
     });
   };
 
+  // Usable for creating or editing interview appointments. "Interview" is the new interview object which is added to or replaces the existing
+  // interview in an appointment slot
   function bookInterview(id, interview) {
     console.log('Booking timeslot ' + id + ' for an interview as follows: ', interview);
     const appointment = {
