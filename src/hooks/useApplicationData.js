@@ -1,11 +1,27 @@
 // Custom hook to get helper and state functions into Application.jsx
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import axios from 'axios';
 
 const useApplicationData = () => {
 
-  const [state, setState] = useState({
+  const reducer = (state, action) => {
+    const { days, appointments, interviewers } = action.val;
+    // console.log('Days are: ', days);
+    // console.log('Appointments are: ', appointments);
+    // console.log('Interviewers are: ', interviewers);
+    switch (action.type) {
+      case 'loadData':
+        return { ...state, days, appointments, interviewers };
+      case 'setDay':
+        return { ...state, day: action.val };
+      case 'appointmentChange':
+        return { ...state, appointments, days };
+    };
+  };
+
+
+  const [state, dispatch] = useReducer(reducer, {
     day: 'Monday',
     days: [],
     appointments: [],
@@ -19,17 +35,19 @@ const useApplicationData = () => {
       const interviewersResult = await axios.get('/api/interviewers');
       // console.log('an appointment object looks like: ', appointmentsResult.data[1]);
       // console.log('an interviewer object looks like: ', interviewersResult.data[1]);
-      setState(prev => {
-        return Object.assign({}, prev, { days: daysResult.data, appointments: appointmentsResult.data, interviewers: interviewersResult.data })
+      dispatch({
+        type: 'loadData', val: {
+          days: daysResult.data,
+          appointments: appointmentsResult.data,
+          interviewers: interviewersResult.data
+        }
       })
     };
     fetchData();
   }, []);
 
   const setDay = (val) => {
-    return setState(prev => {
-      return Object.assign({}, prev, { day: val });
-    });
+    return dispatch({ type: 'setDay', val });
   };
 
   // const updateSpotsRemaining = async (id, isCreating) => {
@@ -61,7 +79,12 @@ const useApplicationData = () => {
       });
       const response = await axios.get('/api/days')
       const newDays = response.data;
-      setState({ ...state, appointments, days: newDays });
+      dispatch({
+        type: 'appointmentChange',
+        val: {
+          appointments, days: newDays
+        }
+      });
       return didSaveSucceed;
     };
     return trySaving();
@@ -77,7 +100,13 @@ const useApplicationData = () => {
       const newAppointments = { ...state.appointments, [id]: temp }
       const response = await axios.get('/api/days')
       const newDays = response.data;
-      setState({ ...state, newAppointments, days: newDays });
+      dispatch({
+        type: 'appointmentChange',
+        val: {
+          appointments: newAppointments,
+          days: newDays
+        }
+      });
       return didCancelSucceed;
     };
     return tryCancelling();

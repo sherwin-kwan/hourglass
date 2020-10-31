@@ -6,7 +6,7 @@ import useApplicationData from 'hooks/useApplicationData';
 // Databases
 // import appointments from './timeslots-db';
 // import days from './days-db';
-import interviewers from './interviewers-db';
+// import interviewers from './interviewers-db';
 
 import "components/Application.scss";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors.js";
