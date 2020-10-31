@@ -55,9 +55,29 @@ const useApplicationData = () => {
     };
     socket.onmessage = event => {
       console.log(`Message Received: ${event.data}`);
-      if (JSON.parse(event.data) === "pong") {
+      const data = JSON.parse(event.data);
+      if (data === "pong") {
         socket.send('pang');
       }
+      // Asynchronously update pages when someone else books or deletes an appointment
+      if (data.type === 'SET_INTERVIEW') {
+        console.log('The mail is here! The mail is here! Oooooh!');
+        const fetchUpdatedData = async () => {
+          let temp = { ...state.appointments[data.id] };
+          temp.interview = data.interview;
+          const newAppointments = { ...state.appointments, [data.id]: temp }
+          const response = await axios.get('/api/days')
+          const newDays = response.data;
+          dispatch({
+            type: 'appointmentChange',
+            val: {
+              appointments: newAppointments,
+              days: newDays
+            }
+          });
+        };
+        fetchUpdatedData();
+      };
     };
   }, []);
 
@@ -110,7 +130,7 @@ const useApplicationData = () => {
     async function tryCancelling() {
       const didCancelSucceed = await axios.delete(`/api/appointments/${id}`);
       // console.log('didcancelsucceed? ', didCancelSucceed);
-      let temp = state.appointments[id];
+      let temp = { ...state.appointments[id] };
       temp.interview = null;
       const newAppointments = { ...state.appointments, [id]: temp }
       const response = await axios.get('/api/days')
