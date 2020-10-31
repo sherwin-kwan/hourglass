@@ -46,9 +46,19 @@ const useApplicationData = () => {
     fetchData();
   }, []);
 
+  // Web Sockets
   useEffect(() => {
     const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
     console.log(socket.protocol);
+    socket.onopen = () => {
+      socket.send('ping');
+    };
+    socket.onmessage = event => {
+      console.log(`Message Received: ${event.data}`);
+      if (JSON.parse(event.data) === "pong") {
+        socket.send('pang');
+      }
+    };
   }, []);
 
   const setDay = (val) => {
