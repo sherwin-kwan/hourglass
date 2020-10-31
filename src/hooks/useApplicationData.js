@@ -46,6 +46,11 @@ const useApplicationData = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+    console.log(socket.protocol);
+  }, []);
+
   const setDay = (val) => {
     return dispatch({ type: 'setDay', val });
   };
