@@ -66,7 +66,7 @@ const useApplicationData = () => {
           let temp = { ...state.appointments[data.id] };
           temp.interview = data.interview;
           const newAppointments = { ...state.appointments, [data.id]: temp }
-          const response = await axios.get('/api/days')
+          const response = await axios.get('/api/days');
           const newDays = response.data;
           dispatch({
             type: 'appointmentChange',
