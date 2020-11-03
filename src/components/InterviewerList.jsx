@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 const InterviewerList = (props) => {
   const listToCreate = props.interviewers.map((person) => {
-    return <InterviewerListItem id={person.id} avatar={person.avatar} name={person.name}
+    return <InterviewerListItem id={person.id} key={person.id} avatar={person.avatar} name={person.name}
     selected={person.id === props.interviewer} setInterviewer={(e) => props.setInterviewer(person.id)} />
   })
   return (
