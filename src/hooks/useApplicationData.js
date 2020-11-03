@@ -112,7 +112,7 @@ const useApplicationData = () => {
       const didSaveSucceed = await axios.put(`/api/appointments/${id}`, {
         interview
       });
-      const response = await axios.get('/api/days')
+      const response = await axios.get('/api/days');
       const newDays = response.data;
       dispatch({
         type: 'appointmentChange',

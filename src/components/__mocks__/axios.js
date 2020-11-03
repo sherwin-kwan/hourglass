@@ -79,7 +79,7 @@ const axios = {
     };
   }),
   put: jest.fn((url, interview) => {
-    if (url === '/appointments/1') {
+    if (url === '/api/appointments/1') {
       // Hard coding in booking the first appointment for testing purposes
       fixtures.days[0].spots--;
       fixtures.appointments["1"].interview = interview;

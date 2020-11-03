@@ -45,8 +45,9 @@ describe('Application integration tests', () => {
     fireEvent.click(getByText(noonAppointment, "Save"));
     const savingSign = queryByText(noonAppointment, "Saving");
     expect(savingSign).toBeInTheDocument();
-    await waitForElementToBeRemoved(() => savingSign);
-    expect(getByText(monday, "No spots remaining")).toBeInTheDocument();
+    await waitForElement(() => queryByText(noonAppointment, /Forrest/));
+    console.log('Forrest appeared');
+    expect(getByText(monday, "no spots remaining")).toBeInTheDocument();
   });
 });
 
