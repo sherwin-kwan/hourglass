@@ -77,8 +77,7 @@ const axios = {
           data: fixtures.interviewers
         });
     };
-
   })
-}
+};
 
 export default axios;
