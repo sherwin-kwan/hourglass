@@ -51,7 +51,7 @@ const Appointment = (props) => {
 
 
   return (
-    <article className="appointment">
+    <article className="appointment"  data-testid="appointment">
       <AppointmentHeader time={props.time} />
       { mode === empty && <AppointmentEmpty onAdd={() => transition(create)} />}
       {

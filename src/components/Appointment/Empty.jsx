@@ -7,6 +7,7 @@ const AppointmentEmpty = (props) => {
       <img
         className="appointment__add-button"
         src="images/add.png"
+        title="Add appointment"
         alt="Add"
         onClick={props.onAdd}
       />

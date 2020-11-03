@@ -11,6 +11,7 @@ const InterviewerListItem = (props) => {
         className="interviewers__item-image"
         src={props.avatar} 
         alt={props.name}
+        title={props.id}
       />
     {props.selected && props.name}
     </li></>

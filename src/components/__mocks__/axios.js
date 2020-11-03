@@ -77,6 +77,12 @@ const axios = {
           data: fixtures.interviewers
         });
     };
+  }),
+  put: jest.fn(url => {
+    return {
+      status: 204,
+      statusText: "No Content"
+    }
   })
 };
 
