@@ -17,12 +17,14 @@ const AppointmentShow = (props) => {
             className="appointment__actions-button"
             src="images/edit.png"
             alt="Edit"
+            title="Edit"
             onClick={props.onEdit}
           />
           <img
             className="appointment__actions-button"
             src="images/trash.png"
             alt="Delete"
+            title="Delete"
             onClick={props.onDelete}
           />
         </section>

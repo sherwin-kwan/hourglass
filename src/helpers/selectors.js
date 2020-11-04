@@ -42,6 +42,7 @@ export const getInterview = (state, interview) => {
       interviewer: interviewerObject
     }
   } else {
+    console.log('interview not found');
     return null;
   }
 };

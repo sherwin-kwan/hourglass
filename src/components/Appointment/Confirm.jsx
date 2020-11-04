@@ -11,7 +11,6 @@ const AppointmentConfirm = (props) => {
         <Button danger onClick={props.onCancel}>{props.onCancelText}</Button>
       </section>
     </main>
-
   );
 };
 

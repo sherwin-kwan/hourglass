@@ -18,7 +18,7 @@ export default function Application(props) {
   const filteredAppointments = getAppointmentsForDay(state, state.day);
   console.log('Re-rendering the page');
   const list_of_appointments = filteredAppointments.map((timeslot) => {
-    console.log('Re-rendering appointments');
+    console.log('Re-rendering appointments', filteredAppointments);
     return (
       <Appointment
         key={timeslot.id}

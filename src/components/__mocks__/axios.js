@@ -78,11 +78,25 @@ const axios = {
         });
     };
   }),
-  put: jest.fn((url, interview) => {
+  put: jest.fn((url, obj) => {
     if (url === '/api/appointments/1') {
       // Hard coding in booking the first appointment for testing purposes
-      fixtures.days[0].spots--;
-      fixtures.appointments["1"].interview = interview;
+      if (fixtures.appointments["1"].interview === null) {
+        fixtures.days[0].spots--;
+      }
+      console.log('interview is: ', obj);
+      fixtures.appointments["1"].interview = obj.interview;
+      return {
+        status: 204,
+        statusText: "No Content"
+      }
+    }
+  }),
+  delete: jest.fn((url) => {
+    if (url === '/api/appointments/2') {
+      // Hard coding in deleting the second appointment for testing purposes
+      fixtures.days[0].spots++;
+      fixtures.appointments["2"].interview = null;
       return {
         status: 204,
         statusText: "No Content"
