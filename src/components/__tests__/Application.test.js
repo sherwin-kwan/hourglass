@@ -9,6 +9,7 @@ import Application from "components/Application";
 
 afterEach(cleanup);
 
+import axios from "axios";
 
 describe('Application integration tests', () => {
 
@@ -69,7 +70,8 @@ describe('Application integration tests', () => {
     expect(getByText(container, "Archie Cohen")).toBeInTheDocument();
   });
 
-  it('loads data, click delete, and successfully deletes appointment updating spots remaining back to 1', async() => {
+  it('loads data, click delete, have it fail once on error, and then successfully delete appointment updating spots remaining back to 1', async () => {
+    axios.delete.mockRejectedValueOnce();
     const { container, debug } = render(<Application />);
     await waitForElement(() => getByText(container, "Archie Cohen"));
     const monday = getByTestId(container, "Monday");
@@ -79,19 +81,42 @@ describe('Application integration tests', () => {
     );
     const deleteButton = getByTitle(archieAppointment, "Delete");
     fireEvent.click(deleteButton);
+
     // Check if the confirm screen pops up
-    const confirmSign = queryByText(archieAppointment, /Really cancel/);
-    expect(confirmSign).toBeInTheDocument(); 
+    expect(getByText(archieAppointment, /Really cancel/)).toBeInTheDocument();
+
     // Click yes this time
     fireEvent.click(getByText(archieAppointment, 'Yes'));
     const savingSign = queryByText(archieAppointment, "Cancelling");
     expect(savingSign).toBeInTheDocument();
-    await waitForElement(() => queryByTitle(archieAppointment, "Add appointment"));
+
+    // Wait for error
+    await waitForElement(() => getByText(container, /Error/));
+    const backButton = getByTitle(container, "Close");
+    fireEvent.click(backButton);
+
+    // Go back and try deleting again
+    const archieAppointment2 = getAllByTestId(container, "appointment").find(
+      appointment => queryByText(appointment, "Archie Cohen")
+    );
+    const deleteButton2 = getByTitle(archieAppointment, "Delete");
+    fireEvent.click(deleteButton2);
+
+    // Check if the confirm screen pops up again
+    expect(getByText(archieAppointment, /Really cancel/)).toBeInTheDocument();
+
+    // Click yes this time
+    fireEvent.click(getByText(archieAppointment, 'Yes'));
+    expect(queryByText(archieAppointment, "Cancelling")).toBeInTheDocument();
+    
+    // Now element should delete, wait for the add button to return
+    await waitForElement(() => getByTitle(container, "Add appointment"));
     console.log('Cancelled');
     expect(getByText(monday, "1 spot remaining")).toBeInTheDocument();
   });
 
-  it('loads data, click edit, and successfully edit appointment', async() => {
+  it('loads data, click edit, have it fail once and display error, then successfully edit appointment', async () => {
+    axios.put.mockRejectedValueOnce();
     const { container, debug } = render(<Application />);
     await waitForElement(() => getByText(container, "Forrest Gump"));
     const monday = getByTestId(container, "Monday");
@@ -109,13 +134,28 @@ describe('Application integration tests', () => {
     fireEvent.click(getByText(forrestAppointment, "Save"));
     const savingSign = queryByText(forrestAppointment, "Saving");
     expect(savingSign).toBeInTheDocument();
+    // Wait for error
+    await waitForElement(() => getByText(container, /Error/));
+    const backButton = getByTitle(container, "Close");
+    fireEvent.click(backButton);
+    // Go back and try to save again. After mocking error the first time, this should go through
+    expect(forrestAppointment).toBeInTheDocument();
+    fireEvent.click(getByText(forrestAppointment, "Save"));
+    expect(queryByText(forrestAppointment,"Saving")).toBeInTheDocument();
     // Check if text changed
-    await waitForElement(() => queryByText(forrestAppointment, /Worsley/));
+    await waitForElement(() => getByText(forrestAppointment, /Worsley/));
     expect(getByText(monday, "1 spot remaining")).toBeInTheDocument();
     // Check if the interviewer changed
     expect(getByText(forrestAppointment, "Sylvia Palmer")).toBeInTheDocument();
   })
 
+  /* test number five */
+  // it("shows the save error when failing to save an appointment", async () => {
+  //   const { container } = render(<Application />);
+  //   await waitForElement(() => getByText(container, "Gump Worsley"));
+  //   const monday = getByTestId(container, "Monday");
+
+  // });
 
 });
 

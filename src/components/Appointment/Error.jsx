@@ -12,6 +12,7 @@ const AppointmentError = (props) => {
         className="appointment__error-close"
         src="images/close.png"
         alt="Close"
+        title="Close"
         onClick={props.onClose}
       />
     </main>
