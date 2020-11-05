@@ -11,6 +11,9 @@ afterEach(cleanup);
 
 import axios from "axios";
 
+// Note: The following tests are supposed to be run in order. The effects of earlier tests are sometimes used in later tests (i.e. there is no reset and reseed
+// of data between tests)
+
 describe('Application integration tests', () => {
 
   it("renders with a default day of Monday, and changes the schedule when new days are selected", async () => {
@@ -53,7 +56,6 @@ describe('Application integration tests', () => {
     const savingSign = queryByText(noonAppointment, "Saving");
     expect(savingSign).toBeInTheDocument();
     await waitForElement(() => queryByText(noonAppointment, /Forrest/));
-    console.log('Forrest appeared');
     expect(getByText(monday, "no spots remaining")).toBeInTheDocument();
   });
 
@@ -125,7 +127,6 @@ describe('Application integration tests', () => {
     
     // Now element should delete, wait for the add button to return
     await waitForElement(() => getByTitle(container, "Add appointment"));
-    console.log('Cancelled');
     expect(getByText(monday, "1 spot remaining")).toBeInTheDocument();
   });
 

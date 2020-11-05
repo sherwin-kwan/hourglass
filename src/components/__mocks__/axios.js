@@ -55,6 +55,7 @@ const fixtures = {
   }
 };
 
+// Mocking Axios calls
 const axios = {
   get: jest.fn(url => {
     switch (url) {
@@ -84,7 +85,6 @@ const axios = {
       if (fixtures.appointments["1"].interview === null) {
         fixtures.days[0].spots--;
       }
-      console.log('interview is: ', obj);
       fixtures.appointments["1"].interview = obj.interview;
       return {
         status: 204,

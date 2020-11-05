@@ -50,7 +50,6 @@ const useApplicationData = () => {
 
   // Function which alters the state so the interview is inserted (or removed, if null) at the chosen id
   const updateInterviews = async (id, interview) => {
-    console.log('Current state is: ', state);
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -75,7 +74,6 @@ const useApplicationData = () => {
   const bookInterview = (id, interview) => {
 
     async function trySaving() {
-      console.log('Booking timeslot ' + id + ' for an interview as follows: ', interview);
       const didSaveSucceed = await axios.put(`/api/appointments/${id}`, {
         interview
       });
@@ -90,7 +88,6 @@ const useApplicationData = () => {
   // Usable for deleting appointments. id of appointment to be deleted
   const cancelInterview = (id) => {
     async function tryCancelling() {
-      console.log(`Cancelling interview in timeslot ${id}`);
       const didCancelSucceed = await axios.delete(`/api/appointments/${id}`);
       // Update the state via the reducer
       await updateInterviews(id, null);

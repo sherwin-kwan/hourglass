@@ -3,11 +3,6 @@ import DayList from './DayList.jsx';
 import Appointment from './Appointment';
 import useApplicationData from 'hooks/useApplicationData';
 
-// Databases
-// import appointments from './timeslots-db';
-// import days from './days-db';
-// import interviewers from './interviewers-db';
-
 import "components/Application.scss";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors.js";
 
@@ -16,9 +11,7 @@ export default function Application(props) {
   const {state, setDay, bookInterview, cancelInterview} = useApplicationData();
 
   const filteredAppointments = getAppointmentsForDay(state, state.day);
-  console.log('Re-rendering the page');
   const list_of_appointments = filteredAppointments.map((timeslot) => {
-    console.log('Re-rendering one appointment', filteredAppointments);
     return (
       <Appointment
         key={timeslot.id}
