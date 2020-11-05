@@ -60,23 +60,23 @@ const useApplicationData = () => {
         socket.send('pang');
       }
       // Asynchronously update pages when someone else books or deletes an appointment
-      if (data.type === 'SET_INTERVIEW') {
-        const fetchUpdatedData = async () => {
-          let temp = { ...state.appointments[data.id] };
-          temp.interview = data.interview;
-          const newAppointments = { ...state.appointments, [data.id]: temp }
-          const response = await axios.get('/api/days');
-          const newDays = response.data;
-          dispatch({
-            type: 'appointmentChange',
-            val: {
-              appointments: newAppointments,
-              days: newDays
-            }
-          });
-        };
-        fetchUpdatedData();
-      };
+      // if (data.type === 'SET_INTERVIEW') {
+      //   const fetchUpdatedData = async () => {
+      //     let temp = { ...state.appointments[data.id] };
+      //     temp.interview = data.interview;
+      //     const newAppointments = { ...state.appointments, [data.id]: temp }
+      //     const response = await axios.get('/api/days');
+      //     const newDays = response.data;
+      //     dispatch({
+      //       type: 'appointmentChange',
+      //       val: {
+      //         appointments: newAppointments,
+      //         days: newDays
+      //       }
+      //     });
+      //   };
+      //   fetchUpdatedData();
+      // };
     };
   }, []);
 
