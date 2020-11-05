@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './styles.scss';
 import AppointmentHeader from './Header.jsx';
 import AppointmentShow from './Show.jsx';
@@ -30,7 +30,7 @@ const Appointment = (props) => {
     };
     try {
       transition(saving);
-      const didSaveSucceed = await props.bookInterview(props.id, interview);
+      const didSaveSucceed = await props.bookInterview(props.id, interview, true);
       transition(show, true);
     } catch (err) {
       console.log(err);
@@ -49,13 +49,21 @@ const Appointment = (props) => {
     };
   };
 
-
+  useEffect(() => {
+    if (props.interview && mode === empty) {
+     transition(show);
+    }
+    if (props.interview === null && mode === show) {
+     transition(empty);
+    }
+   }, [props.interview, transition, mode]);
+   
   return (
     <article className="appointment"  data-testid="appointment">
       <AppointmentHeader time={props.time} />
       { mode === empty && <AppointmentEmpty onAdd={() => transition(create)} />}
       {
-        mode === show && (
+        mode === show && props.interview && (
           <AppointmentShow
             student={props.interview.student}
             interviewer={props.interview.interviewer.name}

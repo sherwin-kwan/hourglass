@@ -18,7 +18,7 @@ export default function Application(props) {
   const filteredAppointments = getAppointmentsForDay(state, state.day);
   console.log('Re-rendering the page');
   const list_of_appointments = filteredAppointments.map((timeslot) => {
-    console.log('Re-rendering appointments', filteredAppointments);
+    console.log('Re-rendering one appointment', filteredAppointments);
     return (
       <Appointment
         key={timeslot.id}
@@ -26,7 +26,7 @@ export default function Application(props) {
         time={timeslot.time}
         interview={getInterview(state, timeslot.interview)}
         bookInterview={bookInterview}
-        onDelete={() => cancelInterview(timeslot.id)}
+        onDelete={() => cancelInterview(timeslot.id, true)}
         interviewers={getInterviewersForDay(state, state.day)} />
     );
   })
