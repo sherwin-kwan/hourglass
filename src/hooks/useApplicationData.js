@@ -6,19 +6,6 @@ import axios from 'axios';
 const reducer = (state, action) => {
   const { days, appointments, interviewers } = action.val;
 
-  // This async function runs when updateOnSocketMessage is dispatched.
-  // It takes "data" as an argument, which is the data object returned from the socket
-  // const fetchUpdatedData = async (data, response) => {
-  //   let temp = { ...state.appointments[data.id] };
-  //   temp.interview = data.interview;
-  //   const newAppointments = { ...state.appointments, [data.id]: temp }
-  //   const newDays = response.data;
-  //   return { newAppointments, newDays };
-  // };
-
-  // console.log('Days are: ', days);
-  // console.log('Appointments are: ', appointments);
-  // console.log('Interviewers are: ', interviewers);
   switch (action.type) {
     case 'loadData':
       return { ...state, days, appointments, interviewers };
@@ -26,22 +13,18 @@ const reducer = (state, action) => {
       return { ...state, day: action.val };
     case 'appointmentChange':
       return { ...state, appointments, days };
-    // case 'updateOnSocketMessage':
-    //   const { newAppointments, newDays } = fetchUpdatedData(action.val.data, action.val.response);
-    //   return { ...state, appointments: newAppointments, days: newDays };
   };
 };
 
-
-
 const useApplicationData = () => {
-  
+
   const [state, dispatch] = useReducer(reducer, {
     day: 'Monday',
     days: [],
     appointments: [],
     interviewers: []
   });
+
   // useEffect to get data on first page load
 
   useEffect(() => {
@@ -49,8 +32,6 @@ const useApplicationData = () => {
       const daysResult = await axios.get('/api/days');
       const appointmentsResult = await axios.get('/api/appointments');
       const interviewersResult = await axios.get('/api/interviewers');
-      // console.log('an appointment object looks like: ', appointmentsResult.data[1]);
-      // console.log('an interviewer object looks like: ', interviewersResult.data[1]);
       dispatch({
         type: 'loadData', val: {
           days: daysResult.data,
@@ -61,6 +42,11 @@ const useApplicationData = () => {
     };
     fetchData();
   }, []);
+
+  // Changing days
+  const setDay = (val) => {
+    return dispatch({ type: 'setDay', val });
+  };
 
   // Function which alters the state so the interview is inserted (or removed, if null) at the chosen id
   const updateInterviews = async (id, interview) => {
@@ -84,35 +70,6 @@ const useApplicationData = () => {
     });
   }
 
-  // Web Sockets
-  useEffect(() => {
-    const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
-    console.log(socket.protocol);
-    socket.onopen = () => {
-      socket.send('ping');
-    };
-    socket.onmessage = event => {
-      console.log(`Message Received: ${event.data}`);
-      const data = JSON.parse(event.data);
-      if (data === "pong") {
-        socket.send('pang');
-      }
-
-      // Asynchronously update pages when someone else books or deletes an appointment
-      if (data.type === 'SET_INTERVIEW') {
-        if (data.interview === null) {
-          updateInterviews(data.id, null);
-        } else {
-          updateInterviews(data.id, data.interview);
-        }
-      };
-    };
-  }, []);
-
-  const setDay = (val) => {
-    return dispatch({ type: 'setDay', val });
-  };
-
   // Usable for creating or editing interview appointments. "Interview" is the new interview object which is added to or replaces the existing
   // interview in an appointment slot.
   const bookInterview = (id, interview) => {
@@ -130,8 +87,7 @@ const useApplicationData = () => {
     return trySaving();
   };
 
-  // Usable for deleting appointments. id of appointment to be deleted, and isMyUpdate is a boolean - true if user is deleting an interview, false
-  // if the interview was deleted by someone else and the client was notified via websocket
+  // Usable for deleting appointments. id of appointment to be deleted
   const cancelInterview = (id) => {
     async function tryCancelling() {
       console.log(`Cancelling interview in timeslot ${id}`);
@@ -142,8 +98,6 @@ const useApplicationData = () => {
     };
     return tryCancelling();
   };
-
-
 
   return { state, setDay, bookInterview, cancelInterview };
 };

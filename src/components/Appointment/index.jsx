@@ -48,15 +48,6 @@ const Appointment = (props) => {
       transition(errorDelete, true);
     };
   };
-
-  useEffect(() => {
-    if (props.interview && mode === empty) {
-     transition(show);
-    }
-    if (props.interview === null && mode === show) {
-     transition(empty);
-    }
-   }, [props.interview, transition, mode]);
    
   return (
     <article className="appointment"  data-testid="appointment">
