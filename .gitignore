@@ -26,3 +26,6 @@ yarn-error.log*
 
 # test files
 tweets.json
+
+# cypress examples files
+/examples

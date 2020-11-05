@@ -61,7 +61,6 @@ const useApplicationData = () => {
       }
       // Asynchronously update pages when someone else books or deletes an appointment
       if (data.type === 'SET_INTERVIEW') {
-        console.log('The mail is here! The mail is here! Oooooh!');
         const fetchUpdatedData = async () => {
           let temp = { ...state.appointments[data.id] };
           temp.interview = data.interview;

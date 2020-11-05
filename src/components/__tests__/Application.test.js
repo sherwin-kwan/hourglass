@@ -35,15 +35,23 @@ describe('Application integration tests', () => {
     const archie = await waitForElement(() => getByText(container, "Archie Cohen"));
     const monday = getByTestId(container, "Monday");
     expect(getByText(monday, "1 spot remaining")).toBeInTheDocument();
+
     // The first appointment in the dummy data, Monday at noon, is an empty appointment
     const noonAppointment = getAllByTestId(container, "appointment")[0];
+
+    // Find the add button
     const addButton = getByTitle(noonAppointment, "Add appointment");
     fireEvent.click(addButton);
+
     // Find "Samuel L. Jackson" default name
     fireEvent.change(getByDisplayValue(noonAppointment, /Samuel/), {
       target: { value: "Forrest Gump" }
     });
+
+    // Choose an interviewer
     fireEvent.click(getByTitle(noonAppointment, "2"));
+
+    // Save
     fireEvent.click(getByText(noonAppointment, "Save"));
     const savingSign = queryByText(noonAppointment, "Saving");
     expect(savingSign).toBeInTheDocument();
