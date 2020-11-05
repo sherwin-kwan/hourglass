@@ -8,7 +8,7 @@ import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "help
 
 export default function Application(props) {
 
-  const {state, setDay, bookInterview, cancelInterview} = useApplicationData();
+  const { state, setDay, bookInterview, cancelInterview } = useApplicationData();
 
   const filteredAppointments = getAppointmentsForDay(state, state.day);
   const list_of_appointments = filteredAppointments.map((timeslot) => {
@@ -26,11 +26,15 @@ export default function Application(props) {
 
   return (
     <main className="layout">
-      <section className="sidebar"><img
-        className="sidebar--centered"
-        src="images/logo.png"
-        alt="Interview Scheduler"
-      />
+      <section className="sidebar">
+        <span>
+          <img
+            className="cover"
+            src="https://upload.wikimedia.org/wikipedia/commons/9/9e/Half-hour_sand_glass_MET_ES268.jpg"
+            alt="Hourglass"
+          />
+          <h1>Hourglass</h1>
+        </span>
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
           <DayList
