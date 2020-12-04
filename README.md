@@ -15,7 +15,7 @@ This is an introductory React project, based on a Lighthouse Labs codebase. I wr
 
 ## Setup
 
-This application communicates with a companion API, which is available [here](https://github.com/sherwin-kwan/scheduler-api). By default, this application runs on port 8000 and the API on port 8001, so you can run both servers on the same computer. An *.env.development* and *.env.test* file have already been created with the correct credentials for proxying (i.e. so API calls to '/api/debug/reset' are made to the API on port 8001).
+This application communicates with a companion API, which is available [here](https://github.com/sherwin-kwan/hourglass-api). By default, this application runs on port 8000 and the API on port 8001, so you can run both servers on the same computer. An *.env.development* and *.env.test* file have already been created with the correct credentials for proxying (i.e. so API calls to '/api/debug/reset' are made to the API on port 8001).
 
 In order to test out this application, begin by cloning both this repo and the API repo to your computer. Instructions for setting up the API repo are given in its README file.
 
